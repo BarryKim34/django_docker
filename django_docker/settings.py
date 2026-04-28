@@ -24,13 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DFANGO_SECRET_KEY')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
+    '127.0.0.1',
     '54.116.94.122'
 ]
 
@@ -82,8 +83,15 @@ WSGI_APPLICATION = 'django_docker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'rdsdb',
+        'USER': 'django',
+        'PASSWORD': os.getenv('LOCAL_RDSDB_PASSWORD'),
+        'HOST': 'django-post.cbqimkc2scyz.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4'
+        }
     }
 }
 
